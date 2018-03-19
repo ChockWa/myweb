@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdh.redpacket.user.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.hdh.redpacket.user.model.User">
+      <id column="id" property="id" />
+      <result column="name" property="name" />
+      <result column="email" property="email" />
+      <result column="password" property="password" />
+      <result column="salt" property="salt" />
+      <result column="register_time" property="registerTime" />
+      <result column="gender" property="gender" />
+      <result column="nickname" property="nickname" />
+      <result column="tel" property="tel" />
+      <result column="invite_by" property="inviteBy" />
+      <result column="state" property="state" />
+      <result column="invite_code" property="inviteCode" />
+      <result column="platform" property="platform" />
+  </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, email, password, salt, register_time,gender,nickname,tel,invite_by,state,
+        invite_code,platform
+    </sql>
+
+    <select id="getByQuery" parameterType="com.hdh.redpacket.user.model.User" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_user
+        <trim prefix="where" prefixOverrides="and">
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getByEmail" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_user
+        where email = #{email}
+    </select>
+
+    <select id="getByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_user
+        where name = #{name}
+    </select>
+
+    <select id="getCount" resultType="int">
+        select count(id) from sys_user
+    </select>
+
+    <select id="getByInviteCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_user
+        where invite_code = #{inviteCode}
+    </select>
+</mapper>
